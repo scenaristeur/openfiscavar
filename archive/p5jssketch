@@ -1,0 +1,75 @@
+var variablesJSON;
+var variablesURL = [];
+var testcpt = 0;
+function preload() {
+  // Get the most recent earthquake in the database
+  var url = 'https://api-test.openfisca.fr/variables';
+  variablesJSON = loadJSON(url);
+}
+
+function setup() {
+ //noLoop();
+}
+
+function draw() {
+  background(200);
+	//console.log(variablesJSON);
+	  var variables = Object.keys(variablesJSON);
+	variables.forEach(function(variable) {
+
+		if(testcpt <10 ){
+			 // console.log(testcpt);
+		getDetail(variable);
+			testcpt++;
+		}
+
+  });
+
+}
+
+function getDetail(variable){
+
+   // console.log(variable);
+    var urlVar = "https://api-test.openfisca.fr/variable/"+variable;
+   // console.log(urlVar);
+		var varJSON = loadJSON(urlVar, varOk, errorVar );
+
+
+}
+
+function varOk(variableDetail){
+	console.log(variableDetail.id);
+  var formulas = variableDetail.formulas;
+  //console.log(formulas);
+  var dates = Object.keys(formulas);
+  if (dates.length >0){
+   // console.log(dates);
+    dates.forEach(function(date) {
+    console.log(date);
+ //   console.log(formulas[date].content);
+      var defs = formulas[date].content.split("def");
+      console.log("L"+defs.length);
+      defs.forEach(function(def) {
+       // console.log("--"+def);
+           // recup parametres de def
+         var firstcut = def.split("(");
+        if (firstcut.length>1){
+       // console.log(firstcut[1]);
+        var secondcut = firstcut[1].split("\)");
+        if(secondcut[0].length > 0){
+          var parametres = secondcut[0].split(",");
+          if(parametres.length >0){
+          console.log(parametres);
+          }
+        }
+        }
+
+        console.log("*");
+      });
+  });
+  }
+}
+
+function errorVar(data){
+	//console.log("err :"+data);
+}
