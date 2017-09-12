@@ -3,7 +3,8 @@ var variablesURL = [];
 var variables =[];
 var variablesDetails = [];
 var variable;
-var testLimite = 10;
+var edges2add = [];
+var testLimite = 200;
 function preload() {
   // Get the most recent earthquake in the database
   var url = 'https://api-test.openfisca.fr/variables';
@@ -11,8 +12,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(displayWidth,100);
-  textSize(20);
+  createCanvas(displayWidth,50);
+  textSize(10);
   textAlign(CENTER);
   //frameRate(30);
   //noLoop();
@@ -22,17 +23,21 @@ function setup() {
 function draw() {
   background(200);
 
-  if ((variables.length > 0)  && (frameCount %5 == 0) && (testLimite > 0 )){ //
+  if ((variables.length > 0) && (testLimite > 0 )  ){ // && (frameCount %5 == 0) && (testLimite > 0 )
     variable = variables.shift();
     var id = variable;
-    nodes.add({ id: id, label: id ,  group: 1, type: "variable"});
+    var x = Math.floor(Math.random() *  width/2+10) + width/2-10 ;
+      var y = Math.floor(Math.random() *  height/2-10) +  height/2-10 ;
+    nodes.add({ id: id, label: id, group: 1, type: "variable", x: x, y: y  });
     getDetail(variable);
     testLimite--;
+      network.fit();
   }else{
 
-    if (variablesDetails.length > 0){
+    if (variablesDetails.length > 0 && (Math.round(frameCount) % 2 == 0)){
       var variableDet = variablesDetails.shift();
       traiteDetails(variableDet);
+        network.fit();
     }
   }
 
@@ -42,6 +47,7 @@ function draw() {
     var fps = Math.round(frameRate())+"fps";
     text(fps, width*0.75, height/2);
   }
+
 }
 
 function populateVars(vars){
@@ -83,7 +89,7 @@ function traitementEntity(variableDetail){
   var nodeExistEntity = nodes.get (entity);
   if (!nodeExistEntity){
     //  console.log(nodeExistEntity);
-    nodes.add({ id: entity, label: entity ,  group: 2, type: "entity"});
+    nodes.add({ id: entity,   group: 2, type: "entity"});
   }
   edges.add({ from: id, to: entity ,  label: "entity", arrows : "to"});
 }
@@ -126,7 +132,7 @@ function traitementFormulas(variableDetail){
                     //      console.log(nodeExist);
                     if (!nodeExist){
                       //      console.log(nodeExist);
-                      nodes.add({ id: parametre, label: parametre ,  group: 3, type: "parametre"});
+                      nodes.add({ id: parametre,   group: 3, type: "parametre"});
                     }
                     if (nodeExist && nodeExist.type != "entity"){
                       edges.add({ from: id, to: parametre ,  label: "utilise", arrows : "to"});
@@ -148,7 +154,7 @@ function traitementFormulas(variableDetail){
 
               if (!nodeExist){
                 //      console.log(nodeExist);
-                nodes.add({ id: fonction, label: fonction ,  group: 4, type: "fonction"});
+                nodes.add({ id: fonction,   group: 4, type: "fonction"});
               }
               edges.add({ from: id, to: fonction ,  label: "return", arrows : "to"});
 
@@ -165,9 +171,16 @@ function traitementFormulas(variableDetail){
                     //      console.log(nodeExist);
                     if (!nodeExistPF){
                       //      console.log(nodeExist);
-                      nodes.add({ id: parametreF, label: parametreF ,  group: 3, type: "parametreF"});
+                      nodes.add({ id: parametreF,   group: 3, type: "parametreF"});
                     }
+                    var edgeExistPF = edges.get({
+  filter: function (item) {
+    return (item.from == fonction && item.to ==parametreF && item.label == "utilise" && item.arrows == "to");
+  }
+});
+      if (!edgeExistPF){
                     edges.add({ from: fonction, to: parametreF ,  label: "utilise", arrows : "to"});
+                  }
                   });
                 }
               }

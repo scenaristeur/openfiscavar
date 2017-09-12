@@ -2,7 +2,7 @@ Openfiscavar
 
 # installation
 
-nécessite  nodejs.
+nécessite  nodejs. ou avec python (https://github.com/processing/p5.js/wiki/Local-server), ou utilisez autre serveur web, dans ce cas, seul le repertoire public est nécessaire.
 
 
 ```

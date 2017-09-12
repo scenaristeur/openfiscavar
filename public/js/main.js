@@ -39,8 +39,19 @@
   };
   var options = {
     autoResize: true,
+  /*  configure: {
+   enabled: true,
+   filter: 'nodes,edges',
+   container: undefined,
+   showButton: true
+ },*/
 interaction:{
   navigationButtons: true,
+  keyboard: {
+    enabled: true,
+    speed: {x: 10, y: 10, zoom: 0.02},
+    bindToWindow: true
+  },
 
 },
     physics:{
@@ -54,18 +65,26 @@ interaction:{
       avoidOverlap: 1
     },
     forceAtlas2Based: {
-      gravitationalConstant: -50,
-      centralGravity: 0.01,
+      gravitationalConstant: -600,
+      centralGravity: 0.001,
       springConstant: 0.08,
-      springLength: 100,
-      damping: 0.9
+      springLength: 200,
+      damping: 0.1
     },
+    /*    forceAtlas2Based: {
+          gravitationalConstant: -600,
+          centralGravity: 0.001,
+          springConstant: 0.08,
+          springLength: 200,
+          damping: 0.1
+        },
+        */
     repulsion: {
-      centralGravity: 0.2,
+      centralGravity: 0.002,
       springLength: 200,
       springConstant: 0.05,
-      nodeDistance: 200,
-      damping: 0.1
+      nodeDistance: 500,
+      damping: 0.01
     },
     hierarchicalRepulsion: {
       centralGravity: 0.2,
@@ -74,8 +93,8 @@ interaction:{
       nodeDistance: 120,
       damping: 0.09
     },
-    maxVelocity: 50,
-    minVelocity: 0.1,
+    maxVelocity: 50000,
+    minVelocity: 1,
     solver: 'forceAtlas2Based',
     stabilization: {
       enabled: true,
