@@ -57,18 +57,18 @@ interaction:{
     physics:{
     enabled: true,
     barnesHut: {
-      gravitationalConstant: -2000,
-      centralGravity: 0.3,
-      springLength: 95,
-      springConstant: 0.04,
-      damping: 1.2,
+      gravitationalConstant: -600,
+      centralGravity: 0.01,
+      springLength: 300,
+      springConstant: 0.08,
+      damping: 0.8,
       avoidOverlap: 1
     },
     forceAtlas2Based: {
-      gravitationalConstant: -600,
-      centralGravity: 0.001,
+      gravitationalConstant: -500,
+      centralGravity: 0.0001,
       springConstant: 0.08,
-      springLength: 200,
+      springLength: 300,
       damping: 0.1
     },
     /*    forceAtlas2Based: {
@@ -80,21 +80,21 @@ interaction:{
         },
         */
     repulsion: {
-      centralGravity: 0.002,
-      springLength: 200,
-      springConstant: 0.05,
+      centralGravity: 0.01,
+      springLength: 300,
+      springConstant: 0.08,
       nodeDistance: 500,
-      damping: 0.01
+      damping: 0.8
     },
     hierarchicalRepulsion: {
-      centralGravity: 0.2,
-      springLength: 100,
-      springConstant: 0.1,
-      nodeDistance: 120,
-      damping: 0.09
+      centralGravity: 0.01,
+      springLength: 300,
+      springConstant: 0.08,
+      nodeDistance: 5000,
+      damping: 0.8
     },
-    maxVelocity: 50000,
-    minVelocity: 1,
+    maxVelocity: 5000,
+    minVelocity: 0.1,
     solver: 'forceAtlas2Based',
     stabilization: {
       enabled: true,
